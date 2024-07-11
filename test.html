@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6D Gym Split</title>
+    <link rel="icon" href="https://banner2.cleanpng.com/20180401/oyw/kisspng-dumbbell-computer-icons-physical-exercise-barbell-hantel-5ac17ee291e413.4170364815226303705976.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="https://banner2.cleanpng.com/20180401/oyw/kisspng-dumbbell-computer-icons-physical-exercise-barbell-hantel-5ac17ee291e413.4170364815226303705976.jpg" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden; 
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto; 
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+            display: none; 
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        h1 {
+            background: linear-gradient(to right, #0c120c, #2a0b0b, #0d143e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .home {
+            width: 100%;
+            background: linear-gradient(to right, #000000, #280101, #030722);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .home button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        .home button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .home .day-buttons {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .day {
+            margin-top: 60px; /* To offset the fixed drawer */
+        }
+
+        .day h2 {
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .workout {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+            transition: transform 0.2s;
+        }
+
+        .workout h3 {
+            margin: 0 0 10px;
+            text-align: center;
+            font-size: 50px;
+            font-family: serif;
+        }
+
+        .workout video, .workout iframe {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+        }
+
+        .workout:hover {
+            transform: scale(1.05);
+            background-color: #000000;
+            color: #ffffff;
+            text-transform: capitalize;
+            font-family: 'Lobster', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; /* Example usage of Lobster font */
+            font-weight: bolder;
+            font-size: larger;
+
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Theme colors for each day */
+        .day-monday h2 { background-color: #4CAF50; }
+        .day-monday { background-color: #d7ffda; }
+
+        .day-tuesday h2 { background-color: #FF5722; }
+        .day-tuesday  { background-color: #ffccbc; }
+
+        .day-wednesday h2 { background-color: #3F51B5; }
+        .day-wednesday { background-color: #c5cae9; }
+
+        .day-thursday h2 { background-color: #009688; }
+        .day-thursday  { background-color: #b2dfdb; }
+
+        .day-friday h2 { background-color: #FF9800; }
+        .day-friday { background-color: #ffe0b2; }
+
+        .day-saturday h2 { background-color: #9C27B0; }
+        .day-saturday  { background-color: #e1bee7; }
+
+        /* Welcome content */
+        .welcome {
+            margin-top: 60px; /* To offset the fixed drawer */
+        }
+
+        .welcome h2 {
+            background-color: #000000;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+       
+
+        .reveal-content {
+            animation: slideUp 1s ease-in-out;
+        }
+        .login-container {
+    position: relative;
+    width: 100%; /* Full width */
+    height: 100vh; /* Full viewport height */
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; 
+    text-align: center;
+}
+.background-image {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://i.imghippo.com/files/mASCj1720573614.png') no-repeat center center;
+    background-size: 250%;
+    background-color: black;
+}
+
+        .gif-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://mir-s3-cdn-cf.behance.net/project_modules/fs/218fc872735831.5bf1e45999c40.gif') no-repeat center center;
+            background-size: 250%;
+            opacity: 0;
+            transition: opacity 0s ease;
+        }
+        .login-form {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+            transition: transform 1s ease;
+            
+        }
+        .login-form h2 {
+            margin: 0 0 19px;
+            color: #ffffff;
+
+        }
+        
+
+        .login-form input {
+            width: calc(100% - 40px);
+            padding: 10px;
+            margin-bottom: 20px;
+            transition: transform 1s ease;
+        }
+        .login-form button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: transform 1s ease;
+        }
+        .login-form button:hover {
+            background-color: #0056b3;
+        }
+        .move-up {
+            transform: translateY(-270%);
+        }
+        .home {
+            display: none;
+            opacity: 0;
+            animation: slide-down 0.1s forwards;
+        }
+        @keyframes slide-down {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+    <script>
+        function toggleDrawer() {
+            const dayButtons = document.querySelector('.day-buttons');
+            if (dayButtons.style.display === 'none' || dayButtons.style.display === '') {
+                dayButtons.style.display = 'flex';
+            } else {
+                dayButtons.style.display = 'none';
+            }
+    
+            document.getElementById('welcome').style.display = 'none';
+        }
+    
+        function showDay(dayId) {
+            document.getElementById('welcome').style.display = 'none'; 
+    
+            const days = document.querySelectorAll('.day, .welcome');
+            days.forEach(day => {
+                day.style.display = 'none';
+            });
+            document.getElementById(dayId).style.display = 'block';
+            document.getElementById('welcome').style.display = 'block';
+    
+            toggleDrawer(); 
+        }
+    
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            const correctPassword = 'Kuzhimandhi'; 
+            if (password === correctPassword) {
+                const gifContainer = document.getElementById('gif-container');
+                const loginForm = document.getElementById('login-form');
+    
+                gifContainer.style.transition = "opacity 0s ease";
+                gifContainer.style.opacity = 1;
+                loginForm.classList.add('move-up');
+    
+                setTimeout(() => {
+                    document.querySelector('.login-container').style.display = 'none';
+                    const homeElement = document.getElementById('home');
+                    homeElement.style.display = 'block';
+                    const cElement = document.getElementById('container');
+                    cElement.style.display = 'block';
+                }, 1330); // Duration of the gif
+            } else {
+                alert('Incorrect password');
+            }
+        }
+    </script>
+    
+</head>
+<body>
+    <div class="login-container">
+        <div class="background-image" id="background-image"></div>
+        <div class="gif-container" id="gif-container"></div>
+        <div class="login-form" id="login-form">
+            <h2>Login</h2>
+            <input type="password" id="password" placeholder="Enter Password">
+            <button onclick="checkPassword()">Login</button>
+        </div>
+    </div>
+
+    <div class="home" id="home">
+        <button onclick="toggleDrawer()">Select Day</button>
+        <div class="day-buttons">
+            <button onclick="showDay('monday')">Monday</button>
+            <button onclick="showDay('tuesday')">Tuesday</button>
+            <button onclick="showDay('wednesday')">Wednesday</button>
+            <button onclick="showDay('thursday')">Thursday</button>
+            <button onclick="showDay('friday')">Friday</button>
+            <button onclick="showDay('saturday')">Saturday</button>
+        </div>
+    </div>
+    
+    <div class="container" id="container">
+        
+        <div class="welcome" id="welcome" style="display: block;">
+            <h1>Gym Split (6 Days)</h1>
+
+            <h2>Vargheese</h2>
+            <h2>Amal </h2>
+            <h2>Dhiraj </h2>
+
+        </div>
+
+        <div class="day day-monday" id="monday" style="display: none;">
+            <h2>Monday (Leg 1)</h2>
+            <div class="workout">
+                <h3>1.Barbell Squat</h3>
+                <iframe src="https://youtube.com/embed/t3Apte6pnpQ" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>2.Romanian Deadlift</h3>
+                <iframe src="https://www.youtube.com/embed/JV9yYMMoHd0" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>3.Leg Press</h3>
+                <iframe src="https://youtube.com/embed/GDg915o1HKI" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>4.Leg Extension</h3>
+                <iframe src="https://youtube.com/embed/uzlUyNZiRfg" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>5.Calf Raise</h3>
+                <iframe src="https://youtube.com/embed/lcYrCNM0GMw" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>6.Decline Crunch</h3>
+                <iframe src="https://youtube.com/embed/QCxj5xPRDxA" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>7.Plank</h3>
+                <iframe src="https://youtube.com/embed/Zb5zjcyl2t4" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+        </div>
+
+        <div class="day day-tuesday" id="tuesday" style="display: none;">
+            <h2>Tuesday (Push 1)</h2>
+            <div class="workout">
+                <h3>1.Flat Bench Press</h3>
+                <iframe src="https://youtube.com/embed/aKm4vAhxy2o" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>2.Dips</h3>
+                <iframe src="https://youtube.com/embed/nqA-M969wdo" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>3.Cable Lateral Raises</h3>
+                <iframe src="https://youtube.com/embed/lDO5z1vuzUw" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>4.Seated Machine Fly</h3>
+                <iframe src="https://youtube.com/embed/ZpKbJf3MBFQ" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>5.Seated Dumbbell Shoulder Press</h3>
+                <iframe src="https://youtube.com/embed/4QKsg5LWuEY" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>6.Cable Tricep Kickback</h3>
+                <iframe src="https://youtube.com/embed/SFPS6VY5GdY" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>7.EZ-Bar SkullCrusher</h3>
+                <iframe src="https://youtube.com/embed/ZSZr1A2CY-Q" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+        </div>
+
+        <div class="day day-wednesday" id="wednesday" style="display: none;">
+            <h2>Wednesday (Pull 1)</h2>
+            <div class="workout">
+                <h3>1.Pull-Ups</h3>
+                <iframe src="https://youtube.com/embed/XLoALWqNGt0" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>2.Seated Cable Row</h3>
+                <iframe src="https://youtube.com/embed/HBuKws9oFyI" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>3.Back Cable Pulldown</h3>
+                <iframe src="https://youtube.com/embed/eGEI8cBh5A0" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>4.Seated Incline Dumbbell Curl</h3>
+                <iframe src="https://youtube.com/embed/YiSsW_mYJro" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>5.Dumbbell Hammer Curl</h3>
+                <iframe src="https://youtube.com/embed/x7xDK51KhXQ" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            
+        </div>
+
+        <div class="day day-thursday" id="thursday" style="display: none;">
+            <h2>Thursday (Leg 2)</h2>
+            <div class="workout">
+                <h3>1.Dead Lift</h3>
+                <iframe src="https://youtube.com/embed/9cIogietshI" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>2.Hack Squat</h3>
+                <iframe src="https://youtube.com/embed/3GgCguIi6u0" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>3.Lying Leg Curl Machine</h3>
+                <iframe src="https://youtube.com/embed/GhGgzs9IheE" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>4.Calf Raises</h3>
+                <iframe src="https://youtube.com/embed/lcYrCNM0GMw" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>5.Hanging Leg Raise</h3>
+                <iframe src="https://youtube.com/embed/RAJKc77PS5Y" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+        </div>
+
+        <div class="day day-friday" id="friday" style="display: none;">
+            <h2>Friday (Push 2)</h2>
+            <div class="workout">
+                <h3>Incline Bench Press</h3>
+                <iframe src="https://youtube.com/embed/8diPEnn-ltC8" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>Cable Crossover</h3>
+                <iframe src="https://www.youtube.com/embed/2yjwXfTZQDDI" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>Seated Dumbbell Press</h3>
+                <iframe src="https://www.youtube.com/embed/eozdVdDA78K0" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>Cable Overhead Tricep Extension</h3>
+                <iframe src="https://www.youtube.com/embed/d_KZxkdY_0cM" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>Lateral Dumbbell Raise</h3>
+                <iframe src="https://www.youtube.com/embed/-t7fuZd0KhDA" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>Tricep Dips</h3>
+                <iframe src="https://www.youtube.com/embed/6kALZikXxLc" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>Tricep Kickback</h3>
+                <iframe src="https://www.youtube.com/embed/ZO81bExngMI" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+        </div>
+
+        <div class="day day-saturday" id="saturday" style="display: none;">
+            <h2>Saturday (Pull 2)</h2>
+            <div class="workout">
+                <h3>Lat Pulldown</h3>
+                <iframe src="https://youtube.com/embed/op9kVdnSso6Q" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>T-Bar Row</h3>
+                <iframe src="https://www.youtube.com/embed/eGo4IdYlbE5g" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>Cable Face Pull</h3>
+                <iframe src="https://www.youtube.com/embed/vT2GjdY_Umpw" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>Barbell Shrug</h3>
+                <iframe src="https://www.youtube.com/embed/Ao-LDd_zn9g4" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>Single Arm Rear Delt Fly</h3>
+                <iframe src="https://www.youtube.com/embed/4J4kdTFK6Y3I" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>EZ-Bar Curl</h3>
+                <iframe src="https://www.youtube.com/embed/lAGfUdq5GmVQ" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+            <div class="workout">
+                <h3>The Preacher</h3>
+                <iframe src="https://www.youtube.com/embed/UKdD9C92iSWQ" width="315" height="560" style="border:none; aspect-ratio: 9 / 16;" allow="autoplay"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showDay(day) {
+    const days = document.querySelectorAll('.day');
+    days.forEach(d => d.style.display = 'none');
+    document.getElementById(day).style.display = 'block';
+    
+    const dayButtons = document.querySelector('.day-buttons');
+    dayButtons.style.display = 'none';
+}
+
+
+</script>
+</body>
+</html>
